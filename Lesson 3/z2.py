@@ -14,5 +14,7 @@ class CN:
 
 
 a = CN(1, 2)
-print(a.x, a.y)
+print(*a.get())
+a.set(25, 30)
+print(*a.get())
 print('Hi')
