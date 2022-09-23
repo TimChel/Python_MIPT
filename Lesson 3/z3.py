@@ -25,7 +25,7 @@ class CN:
         self.y = my_y
         return
 
-    def __init__(self, my_x, my_y):
+    def __init__(self, my_x=0, my_y=0):
         self.set(my_x, my_y)
         return
 
