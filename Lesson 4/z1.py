@@ -96,3 +96,14 @@ class ComplexNumbers:
     def __rtruediv__(self, other):
         return 1 / self * other
 
+    def __iadd__(self, other):
+        return self + other
+
+    def __isub__(self, other):
+        return self - other
+
+    def __imul__(self, other):
+        return self * other
+
+    def __itruediv__(self, other):
+        return self / other
