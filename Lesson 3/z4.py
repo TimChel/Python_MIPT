@@ -31,7 +31,7 @@ def sopr(a):
 
 
 def delen(a, b):
-    return umn(a, sopr(b))[0]/(b.get()[0]**2 - b.get()[1]**2), umn(a, sopr(b))[1]/(b.get()[0]**2 - b.get()[1]**2)
+    return umn(a, sopr(b))[0]/(b.get()[0]**2 - b.get()[1]**2), umn(a, sopr(b))[1]/(b.get()[0]**2 + b.get()[1]**2)
 
 a = CN(4, 5)
 b = CN(1, 2)
