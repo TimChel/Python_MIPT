@@ -32,10 +32,13 @@ class Node:
         return str(self.get_value())
 
 class List:
-    def __init__(self):
+    def __init__(self, valuelist = []):
         self._start_pointer = None
         self._finish_pointer = None
         self._length = 0
+        self._curr_pointer = None
+        for i in valuelist:
+            self.append(i)
 
     def __len__(self):
         return self._length
@@ -45,10 +48,42 @@ class List:
             self._start_pointer = Node(value)
             self._finish_pointer = self._start_pointer
             self._length = 1
+            self._curr_pointer = self._start_pointer
         else:
             self._finish_pointer.set_next(Node(value, self._finish_pointer))
             self._finish_pointer = self._finish_pointer.get_next()
             self._length += 1
+
+    def pop(self, ind):
+        if ind == 0:
+            self._start_pointer = self._start_pointer.get_next()
+            self._start_pointer.set_prev(None)
+            self._length -= 1
+            return
+
+        if ind == len(self) - 1:
+            self._finish_pointer = self._finish_pointer.get_prev()
+            self._finish_pointer.set_next(None)
+            self._length -= 1
+            return
+
+        if ind < len(self) / 2:
+            curr_pointer = self._start_pointer
+            for j in range(ind):
+                curr_pointer = curr_pointer.get_next()
+            curr_pointer.get_prev().set_next(curr_pointer.get_next())
+            curr_pointer.get_next().set_prev(curr_pointer.get_prev())
+            self._length -= 1
+            return
+
+
+        curr_pointer = self._finish_pointer
+        for j in range(len(self) - ind - 1):
+            curr_pointer = curr_pointer.get_prev()
+        curr_pointer.get_prev().set_next(curr_pointer.get_next())
+        curr_pointer.get_next().set_prev(curr_pointer.get_prev())
+        self._length -= 1
+        return
 
     def __getitem__(self, i):
         if i < 0 or i >= self._length:
@@ -71,8 +106,34 @@ class List:
             arr.append(str(self[i]))
         return "[" + ", ".join(arr) + "]"
 
+    def __add__(self, other):
+        if isinstance(other, List):
+            B = List()
+            for i in self:
+                B.append(i)
+            for i in other:
+                B.append(i)
+            return B
 
-A = List()
-for i in range(5):
-    A.append(i)
+    def __radd__(self, other):
+        return self + other
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self._curr_pointer is None:
+            self._curr_pointer = self._start_pointer
+            raise StopIteration()
+        _curr_pointer = self._curr_pointer
+        self._curr_pointer = _curr_pointer.get_next()
+        return _curr_pointer.get_value()
+
+
+
+A = List([35, 40, 62, 41, 111, 25, 61, 7345, 246])
+A.pop(8)
+B = List([348, 3984, 93844, 23])
 print(A)
+print(B)
+print(A+B)
