@@ -116,7 +116,13 @@ class List:
             return B
 
     def __radd__(self, other):
-        return self + other
+        if isinstance(other, List):
+            B = List()
+            for i in other:
+                B.append(i)
+            for i in self:
+                B.append(i)
+            return B
 
     def __iter__(self):
         return self
