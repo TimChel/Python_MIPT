@@ -21,7 +21,7 @@ class ComplexNumbers:
     def __str__(self):
         if self._y > 0:
             return str(self._x)+' + i*'+str(self._y)
-        if self._y == 0:
+        if self._y < 0:
             return str(self._x)+' - i*'+str(-1*self._y)
         return str(self._x)
 
