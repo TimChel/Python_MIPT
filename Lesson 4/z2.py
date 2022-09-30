@@ -59,6 +59,7 @@ class List:
             self._start_pointer = self._start_pointer.get_next()
             self._start_pointer.set_prev(None)
             self._length -= 1
+            self._curr_pointer = self._start_pointer
             return
 
         if ind == len(self) - 1:
@@ -138,8 +139,11 @@ class List:
 
 
 A = List([35, 40, 62, 41, 111, 25, 61, 7345, 246])
-A.pop(8)
+C = List([2895, 235, 523,52,135,52])
+A.pop(0)
 B = List([348, 3984, 93844, 23])
 print(A)
 print(B)
+print(C)
 print(A+B)
+print(C+A)
