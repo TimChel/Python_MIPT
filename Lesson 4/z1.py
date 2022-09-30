@@ -94,7 +94,7 @@ class ComplexNumbers:
             return ComplexNumbers((self * other.sopr())._x / abs(other), (self * other.sopr())._y / abs(other))
 
     def __rtruediv__(self, other):
-        return 1 / self * other
+        return ComplexNumbers(other, 0) / self
 
     def __iadd__(self, other):
         return self + other
