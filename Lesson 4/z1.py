@@ -27,13 +27,9 @@ class ComplexNumbers:
 
     def __eq__(self, other):
         if isinstance(other, numbers.Number):
-            if self._x == other and self._y == 0:
-                return True
-            return False
+            return self._x == other and self._y == 0
         if isinstance(other, ComplexNumbers):
-            if self._x == other._x and self._y == other._y:
-                return True
-            return False
+            return self._x == other._x and self._y == other._y
 
     def __ne__(self, other):
         if self == other:
@@ -107,3 +103,9 @@ class ComplexNumbers:
 
     def __itruediv__(self, other):
         return self / other
+
+A = ComplexNumbers(34, 54)
+B = ComplexNumbers(34, 54)
+C = ComplexNumbers(34, 0)
+p = 34
+print(p == C)
