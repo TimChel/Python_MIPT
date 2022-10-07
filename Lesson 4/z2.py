@@ -103,8 +103,8 @@ class List:
 
     def __str__(self):
         arr = []
-        for i in range(self._length):
-            arr.append(str(self[i]))
+        for i in self:
+            arr.append(str(i))
         return "[" + ", ".join(arr) + "]"
 
     def __add__(self, other):
@@ -141,9 +141,11 @@ class List:
 A = List([35, 40, 62, 41, 111, 25, 61, 7345, 246])
 C = List([2895, 235, 523,52,135,52])
 A.pop(0)
+Q = List()
 B = List([348, 3984, 93844, 23])
 print(A)
 print(B)
 print(C)
 print(A+B)
+print(A+Q)
 print(C+A)
