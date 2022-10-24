@@ -1,5 +1,3 @@
-#Доработать связный список из предыдущих занятий, снабдив его
-#возможностью сохранять данные в бинарный файл и восстанавливать из сохранения.
 import pickle
 
 
@@ -137,23 +135,6 @@ class List:
     def __iter__(self):
         return ListIterator(self)
 
-
-A = List([35, 40, 62, 41, 111, 25, 61, 7345, 246])
-C = List([2895, 235, 523,52,135,52])
-A.pop(8)
-A.append(254)
-Q = List()
-B = List([348, 3984, 93844, 23])
-print(A)
-print(B)
-print(C)
-print(A+B)
-print(Q+A)
-print(C+A)
-
-p = B
-with open("pickle_data.bin", mode="wb") as f:
-    pickle.dump(p, f)
 
 with open("pickle_data.bin", mode="rb") as f:
     a = pickle.load(f)
