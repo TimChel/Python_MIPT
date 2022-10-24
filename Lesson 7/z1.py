@@ -151,7 +151,7 @@ print(A+B)
 print(Q+A)
 print(C+A)
 
-p = B
+p = A
 with open("pickle_data.bin", mode="wb") as f:
     pickle.dump(p, f)
 
