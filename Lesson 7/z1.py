@@ -137,6 +137,10 @@ class List:
     def __iter__(self):
         return ListIterator(self)
 
+    def save(self):
+        with open("pickle_data.bin", mode="wb") as f:
+            pickle.dump(self, f)
+
 
 A = List([35, 40, 62, 41, 111, 25, 61, 7345, 246])
 C = List([2895, 235, 523,52,135,52])
@@ -152,8 +156,7 @@ print(Q+A)
 print(C+A)
 
 p = A
-with open("pickle_data.bin", mode="wb") as f:
-    pickle.dump(p, f)
+p.save()
 
 with open("pickle_data.bin", mode="rb") as f:
     a = pickle.load(f)
