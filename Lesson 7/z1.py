@@ -139,11 +139,15 @@ class List:
 
     def save(self):
         with open("pickle_data.bin", mode="wb") as f:
-            pickle.dump(self, f)
+            pickle.dump(self.__dict__, f)
+
+    def loading(self):
+        with open("pickle_data.bin", mode="rb") as f:
+            self.__dict__ = pickle.load(f)
 
 
 A = List([35, 40, 62, 41, 111, 25, 61, 7345, 246])
-C = List([2895, 235, 523,52,135,52])
+C = List([2895, 235, 523, 52, 135, 52])
 A.pop(8)
 A.append(254)
 Q = List()
@@ -158,6 +162,7 @@ print(C+A)
 p = A
 p.save()
 
-with open("pickle_data.bin", mode="rb") as f:
-    a = pickle.load(f)
+a = List()
+a.loading()
+
 print(type(a), a)
