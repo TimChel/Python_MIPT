@@ -46,6 +46,7 @@ class ComplexNumbers:
             return self._x
         if key == 1:
             return self._y
+        raise IndexError
 
     def __setitem__(self, key, value):
         if key == 0:
@@ -116,5 +117,5 @@ class ComplexNumbers:
         return str(self._rad)+' * e^(i*'+str(self._angle)+')'
 
 A = ComplexNumbers(1.4, 1.6)
-print(A)
+print(A[2])
 print(A.exp())

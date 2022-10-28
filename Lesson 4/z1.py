@@ -108,4 +108,3 @@ A = ComplexNumbers(34, 54)
 B = ComplexNumbers(34, 54)
 C = ComplexNumbers(34, 0)
 p = 34
-print(p == C)
