@@ -2,6 +2,7 @@
 # Фибоначчи, написанной через циклы и через рекурсию, с использованием __@lru_cache(maxsize=None)__
 # и без.
 import time
+from functools import lru_cache
 
 
 def time_decorator(func):
@@ -30,8 +31,8 @@ def fib_r(n):
     return fib_r(n-1) + fib_r(n-2)
 
 
-print('Без использования кэша:\nЦиклы:', fib_c(25)[1], '\nРекурсия:', fib_r(25)[1])
+print('Без использования кэша:\nЦиклы:', fib_c(250)[1], '\nРекурсия:', fib_r(25)[1])
 fib_c = lru_cache(maxsize=None)(fib_c)
+fib_r = lru_cache(maxsize=None)(fib_r)
 
-
-print('С кэшом:\nЦиклы:', fib_c(25)[1], '\nРекурсия:', fib_r(25)[1])
+print('С кэшом:\nЦиклы:', fib_c(250)[1], '\nРекурсия:', fib_r(250)[1])
