@@ -15,7 +15,8 @@ def time_decorator(func):
         start_time = time.time()
         res = func(*args, **kwargs)
         res2 = time.time() - start_time
-        return res, res2
+        print(res2)
+        return
     return wrapper
 
 
