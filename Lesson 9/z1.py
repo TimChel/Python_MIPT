@@ -9,6 +9,16 @@ import multiprocessing as mp
 import time
 
 
+def time_decorator(func):
+    def wrapper(*args, **kwargs):
+
+        start_time = time.time()
+        res = func(*args, **kwargs)
+        res2 = time.time() - start_time
+        return res, res2
+    return wrapper
+
+
 def work(coord):
     global matrix_1
     global matrix_2
@@ -36,10 +46,16 @@ m = len(matrix_1[0])
 p = len(matrix_2[0])
 
 
-if __name__ == "__main__":
-    cpu_num = mp.cpu_count() - 1
-    pond = mp.Pool(cpu_num)
-    data = [(i, j) for i in range(n) for j in range(p)]
-    res = pond.map(work, data)
-    for i in range(n):
-        print([res[i*p + j] for j in range(p)])
+@time_decorator
+def main_function():
+    global n, p
+    if __name__ == "__main__":
+        cpu_num = mp.cpu_count() - 1
+        pond = mp.Pool(cpu_num)
+        data = [(i, j) for i in range(n) for j in range(p)]
+        res = pond.map(work, data)
+        for i in range(n):
+            print([res[i*p + j] for j in range(p)])
+
+
+main_function()
