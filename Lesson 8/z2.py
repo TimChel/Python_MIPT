@@ -9,6 +9,6 @@ def print_arg(func):
 
 @print_arg
 def foo(*x):
-    print(x)
+    print(x, 'gfhg')
 
 foo(3, 5, 6, "v", "w")

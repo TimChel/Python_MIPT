@@ -1,22 +1,25 @@
-# 1) Считать матрицы (заполненные целыми числами) из файлов
-# __matrix_1.csv__ и __matrix_2.csv__. Написать функцию, выполняющую
-# печатающую матрицу - результат перемножения первой на вторую,
-# задекорировать ее своим временным декоратором (Я вам
-# запрещаю использовать готовые библиотеки
-# типа `numpy` или `pandas`).
+# 2) Написать функцию, выполняющую аналогичные
+# вычисления, но с использованием библиотеки
+# `multiprocessing`, причем функция должна принимать
+# аргументом число вспомогательных подпроцессов.
 import csv
 import multiprocessing as mp
 import time
-
+# def work(x):
+#     time.sleep(0.0000000000001)
+#     print(x)
+#     return x
 
 def time_decorator(func):
     def wrapper(*args, **kwargs):
 
         start_time = time.time()
         res = func(*args, **kwargs)
-        res2 = time.time() - start_time
-        print(res2)
-        return
+        res2 = None
+        if __name__ == "__main__":
+            res2 = time.time() - start_time
+            print(res2)
+        return res, res2
     return wrapper
 
 
@@ -48,15 +51,17 @@ p = len(matrix_2[0])
 
 
 @time_decorator
-def main_function():
+def main_function(proc):
     global n, p
     if __name__ == "__main__":
-        cpu_num = mp.cpu_count() - 1
-        pond = mp.Pool(cpu_num)
-        data = [(i, j) for i in range(n) for j in range(p)]
-        res = pond.map(work, data)
+        pond = mp.Pool(proc)
+        res = pond.map(work, ((i, j) for i in range(n) for j in range(p)))
         for i in range(n):
             print([res[i*p + j] for j in range(p)])
 
 
-main_function()
+time_list=[]
+main_function(mp.cpu_count() - 1)
+for i in range(mp.cpu_count() - 1):
+    time_list.append((i+1, main_function(i+1)[1]))
+print(time_list)
