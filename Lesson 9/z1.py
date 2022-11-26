@@ -15,7 +15,7 @@ def time_decorator(func):
 
         start_time = time.time()
         res = func(*args, **kwargs)
-        res2 = None
+        res2 = 1
         if __name__ == "__main__":
             res2 = time.time() - start_time
             print(res2)
@@ -63,5 +63,7 @@ def main_function(proc):
 time_list=[]
 main_function(mp.cpu_count() - 1)
 for i in range(mp.cpu_count() - 1):
-    time_list.append((i+1, main_function(i+1)[1]))
-print(time_list)
+    time_list.append([i+1, main_function(i+1)[1]])
+    time_list[i][1] = time_list[0][1] / time_list[i][1]
+if __name__ == "__main__":
+    print(time_list)
