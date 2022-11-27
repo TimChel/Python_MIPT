@@ -12,10 +12,9 @@ import time
 
 def time_decorator(func):
     def wrapper(*args, **kwargs):
-
-        start_time = time.time()
+        if __name__ == "__main__":
+            start_time = time.time()
         res = func(*args, **kwargs)
-        res2 = 1
         if __name__ == "__main__":
             res2 = time.time() - start_time
             print(res2)
@@ -59,11 +58,11 @@ def main_function(proc):
         for i in range(n):
             print([res[i*p + j] for j in range(p)])
 
-
-time_list=[]
-main_function(mp.cpu_count() - 1)
-for i in range(mp.cpu_count() - 1):
-    time_list.append([i+1, main_function(i+1)[1]])
-    time_list[i][1] = time_list[0][1] / time_list[i][1]
 if __name__ == "__main__":
+    time_list=[]
+    main_function(mp.cpu_count() - 1)
+    for i in range(mp.cpu_count() - 1):
+        time_list.append([i+1, main_function(i+1)[1]])
+    for i in range(len(time_list)):
+        time_list[-i-1][1] = time_list[0][1] / time_list[-i-1][1]
     print(time_list)

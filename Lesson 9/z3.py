@@ -5,17 +5,37 @@
 import csv
 import multiprocessing as mp
 import time
+from math import ceil
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import AutoMinorLocator, MultipleLocator, FuncFormatter
 
 
+def circle(x, y, radius=0.15):
+    from matplotlib.patches import Circle
+    from matplotlib.patheffects import withStroke
+    circle = Circle((x, y), radius, clip_on=False, zorder=10, linewidth=1,
+                    edgecolor='black', facecolor=(0, 0, 0, .0125),
+                    path_effects=[withStroke(linewidth=5, foreground='w')])
+    ax.add_artist(circle)
+
+
+def text(x, y, text):
+    ax.text(x, y, text, backgroundcolor="white",
+            ha='center', va='top', weight='bold', color='blue')
+
+
+def minor_tick(x, pos):
+    if not x % 1.0:
+        return ""
+    return "%.2f" % x
+
+
 def time_decorator(func):
     def wrapper(*args, **kwargs):
-
-        start_time = time.time()
+        if __name__ == "__main__":
+            start_time = time.time()
         res = func(*args, **kwargs)
-        res2 = 1
         if __name__ == "__main__":
             res2 = time.time() - start_time
             print(res2)
@@ -60,86 +80,49 @@ def main_function(proc):
             print([res[i*p + j] for j in range(p)])
 
 
-time_list=[]
-for i in range(mp.cpu_count() - 1):
-    time_list.append([i+1, main_function(i+1)[1]])
-    time_list[i][1] = time_list[0][1] / time_list[i][1]
-if __name__ == "__main__":
-    print(time_list)
 
 
-np.random.seed(19680801)
 
-X = [time_list[i][0] for i in range(len(time_list))]
-Y1 = [time_list[i][1] for i in range(len(time_list))]
-print(X, Y1)
+def print_cool(time_list):
+    np.random.seed(19680801)
 
-fig = plt.figure(figsize=(8, 8))
-ax = fig.add_subplot(1, 1, 1, aspect=1)
+    X = [time_list[i][0] for i in range(len(time_list))]
+    Y1 = [time_list[i][1] for i in range(len(time_list))]
+    print(X, Y1)
 
+    fig = plt.figure(figsize=(16, 16))
+    ax = fig.add_subplot(1, 1, 1, aspect=1)
 
-def minor_tick(x, pos):
-    if not x % 1.0:
-        return ""
-    return "%.2f" % x
+    ax.xaxis.set_major_locator(MultipleLocator(1.000))
+    ax.yaxis.set_major_locator(MultipleLocator(1.000))
+    ax.yaxis.set_minor_locator(AutoMinorLocator(4))
+    ax.yaxis.set_minor_formatter(FuncFormatter(minor_tick))
 
-ax.xaxis.set_major_locator(MultipleLocator(1.000))
-ax.xaxis.set_minor_locator(AutoMinorLocator(4))
-ax.yaxis.set_major_locator(MultipleLocator(1.000))
-ax.yaxis.set_minor_locator(AutoMinorLocator(4))
-ax.xaxis.set_minor_formatter(FuncFormatter(minor_tick))
+    ax.set_xlim(0, len(X)+1)
+    ax.set_ylim(ceil(min(Y1))-1, ceil(max(Y1)))
 
-ax.set_xlim(0, 4)
-ax.set_ylim(0, 4)
+    ax.tick_params(which='major', width=1.0)
+    ax.tick_params(which='major', length=10)
+    ax.tick_params(which='minor', width=1.0, labelsize=10)
+    ax.tick_params(which='minor', length=5, labelsize=10, labelcolor='0.25')
 
-ax.tick_params(which='major', width=1.0)
-ax.tick_params(which='major', length=10)
-ax.tick_params(which='minor', width=1.0, labelsize=10)
-ax.tick_params(which='minor', length=5, labelsize=10, labelcolor='0.25')
+    ax.grid(linestyle="--", linewidth=0.5, color='.25', zorder=-10)
 
-ax.grid(linestyle="--", linewidth=0.5, color='.25', zorder=-10)
+    ax.plot(X, Y1, c=(0.25, 0.25, 1.00), lw=2, label="Blue signal", zorder=10)
 
-ax.plot(X, Y1, c=(0.25, 0.25, 1.00), lw=2, label="Blue signal", zorder=10)
+    ax.set_title("Скорость от количества задействованных проессов", fontsize=20, verticalalignment='bottom')
+    ax.set_xlabel("n")
+    ax.set_ylabel("T_1 / T_n")
 
-
-ax.set_title("Anatomy of a figure", fontsize=20, verticalalignment='bottom')
-ax.set_xlabel("X axis label")
-ax.set_ylabel("Y axis label")
-
-ax.legend()
-
-
-def circle(x, y, radius=0.15):
-    from matplotlib.patches import Circle
-    from matplotlib.patheffects import withStroke
-    circle = Circle((x, y), radius, clip_on=False, zorder=10, linewidth=1,
-                    edgecolor='black', facecolor=(0, 0, 0, .0125),
-                    path_effects=[withStroke(linewidth=5, foreground='w')])
-    ax.add_artist(circle)
-
-
-def text(x, y, text):
-    ax.text(x, y, text, backgroundcolor="white",
-            ha='center', va='top', weight='bold', color='blue')
-
-
-color = 'blue'
-ax.annotate('Spines', xy=(4.0, 0.35), xycoords='data',
-            xytext=(3.3, 0.5), textcoords='data',
-            weight='bold', color=color,
-            arrowprops=dict(arrowstyle='->',
-                            connectionstyle="arc3",
-                            color=color))
-
-ax.annotate('', xy=(3.15, 0.0), xycoords='data',
-            xytext=(3.45, 0.45), textcoords='data',
-            weight='bold', color=color,
-            arrowprops=dict(arrowstyle='->',
-                            connectionstyle="arc3",
-                            color=color))
-
-ax.text(4.0, -0.4, "Made with http://matplotlib.org",
-        fontsize=10, ha="right", color='.5')
-
-if __name__ == "__main__":
     plt.show()
+
+
+if __name__ == "__main__":
+    time_list=[]
+    main_function(mp.cpu_count() - 1)
+    for i in range(mp.cpu_count() - 1):
+        time_list.append([i+1, main_function(i+1)[1]])
+    for i in range(len(time_list)):
+        time_list[-i-1][1] = time_list[0][1] / time_list[-i-1][1]
+    print(time_list)
+    print_cool(time_list)
