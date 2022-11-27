@@ -11,20 +11,6 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import AutoMinorLocator, MultipleLocator, FuncFormatter
 
 
-def circle(x, y, radius=0.15):
-    from matplotlib.patches import Circle
-    from matplotlib.patheffects import withStroke
-    circle = Circle((x, y), radius, clip_on=False, zorder=10, linewidth=1,
-                    edgecolor='black', facecolor=(0, 0, 0, .0125),
-                    path_effects=[withStroke(linewidth=5, foreground='w')])
-    ax.add_artist(circle)
-
-
-def text(x, y, text):
-    ax.text(x, y, text, backgroundcolor="white",
-            ha='center', va='top', weight='bold', color='blue')
-
-
 def minor_tick(x, pos):
     if not x % 1.0:
         return ""
